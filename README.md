@@ -367,11 +367,11 @@ Once the application is deployed, Prometheus and Grafana are set up to monitor t
 
 To ensure security, the following measures are taken:
 
-**Encryption:** All data is encrypted at rest and in transit using AWS KMS and SSL/TLS certificates.
+- **Encryption:** All data is encrypted at rest and in transit using AWS KMS and SSL/TLS certificates.
 
-**IAM Roles:** Only the necessary permissions are granted to IAM roles, following the principle of least privilege.
+- **IAM Roles:** Only the necessary permissions are granted to IAM roles, following the principle of least privilege.
 
-**S3 Bucket Policies:** The S3 buckets used for storing Terraform state files are secured with bucket policies and encryption.
+- **S3 Bucket Policies:** The S3 buckets used for storing Terraform state files are secured with bucket policies and encryption.
 
 ---
 
