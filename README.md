@@ -135,6 +135,85 @@ variable "region" {
 # Other variables like bucket name, CIDR blocks...
 ```
 
+
+### 6. **Cloudwatch (`cloudwatch.tf`)**
+
+All required configuration for cloudwatch, cloudtrail and sns are in this file.
+
+```hcl
+resource "aws_cloudwatch_log_group" "eks_log_group" {
+  name              = "/aws/eks/cluster-logs-regtech"
+  retention_in_days = 30
+}
+# Other variables like bucket name, CIDR blocks...
+```
+
+### 7. **Autoscaler (`iam-autoscaler.tf`)**
+
+All required configuration for Autoscaling are in this file.
+
+```hcl
+resource "aws_iam_role" "eks_cluster_autoscaler" {
+  assume_role_policy = data.aws_iam_policy_document.eks_cluster_autoscaler_assume_role_policy.json
+  name               = "eks-cluster-autoscaler"
+}
+# Other variables like bucket name, CIDR blocks...
+```
+
+### 8. **Openid Oidc (`oidc.tf`)**
+
+All required configuration for Openid are in this file.
+
+```hcl
+resource "aws_iam_openid_connect_provider" "eks" {
+  client_id_list  = ["sts.amazonaws.com"]
+  thumbprint_list = [data.tls_certificate.eks.certificates[0].sha1_fingerprint]
+  url             = aws_eks_cluster.eks_cluster.identity[0].oidc[0].issuer
+}
+# Other variables like bucket name, CIDR blocks...
+```
+
+### 9. **Security Group (`security_groups.tf`)**
+
+All required configuration for Security Groups are in this file.
+
+```hcl
+resource "aws_security_group" "main_sg" {
+    name = "main_sg"
+    description = var.main_sg_description
+    vpc_id = aws_vpc.main.id 
+
+    ingress  {
+        description = "ssh access"
+        from_port = 22
+        to_port = 22
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+}
+# Other variables like bucket name, CIDR blocks...
+```
+
+### 10. **Routing (`routing.tf`)**
+
+All required configuration for routing are in this file.
+
+```hcl
+resource "aws_route_table" "public_rt" {
+  vpc_id = aws_vpc.main.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.igw.id
+  }
+
+  tags = {
+    Name = var.tags_public_rt
+  }
+}
+
+# Other variables like bucket name, CIDR blocks...
+```
 ---
 
 ## Infrastructure Deployment: EKS Cluster
