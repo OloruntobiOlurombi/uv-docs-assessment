@@ -353,4 +353,27 @@ jobs:
 
 ---
 
-This complete setup automates both the infrastructure provisioning and application deployment, ensuring a smooth CI/CD pipeline that leverages GitHub Actions, Terraform, and AWS resources for a scalable, secure, and compliant environment.
+## Monitoring and Alerts Setup
+
+Once the application is deployed, Prometheus and Grafana are set up to monitor the cluster's health and performance. These tools allow for real-time metrics and alerts in case of performance degradation or failures.
+
+**Prometheus:** Captures and stores metrics from the EKS cluster and application.
+
+**Grafana:** Visualizes the metrics and allows setting up alerts for key events, such as memory or CPU spikes.
+
+---
+
+## Security Best Practices
+
+To ensure security, the following measures are taken:
+
+**Encryption:** All data is encrypted at rest and in transit using AWS KMS and SSL/TLS certificates.
+
+**IAM Roles:** Only the necessary permissions are granted to IAM roles, following the principle of least privilege.
+
+**S3 Bucket Policies:** The S3 buckets used for storing Terraform state files are secured with bucket policies and encryption.
+
+---
+
+## Conclusion
+This documentation covers the full automation lifecycle of provisioning an EKS cluster using Terraform and deploying a Flask application using Docker and Kubernetes, all integrated with GitHub Actions CI/CD pipelines. It also includes monitoring and security best practices, ensuring a robust and scalable solution for managing infrastructure and application deployments.
